@@ -702,26 +702,28 @@ var MineCommand = function(message, args){
                   m +=pickaxes[I.pick];
                   if(I.d[i*7+j] == "6"){ 
                       var randit = Math.floor(Math.random()*5);
-                      if(randit == 0){
-                          I.inv.stone +=20;
-                          message.reply("You got 20 stone!");
-                      }
-                      if(randit == 1){
-                          I.inv.coal +=20;
-                          message.reply("You got 20 coal!");
-                      }
-                      if(randit == 2){
-                          I.inv.iron +=10;
-                          message.reply("You got 10 iron!");
-                      }
-                      if(randit == 3){
-                          I.inv.gold +=5;
-                          message.reply("You got 5 gold!");
-                      }
-                      if(randit == 4){
-                          I.inv.diamond +=5;
-                          message.reply("You got 5 diamonds!");
-                      }
+                    switch(randit){
+                      case 0:
+                        I.inv.stone +=20;
+                        message.reply("You got 20 stone!");
+                        break;
+                      case 1:
+                        I.inv.coal +=20;
+                        message.reply("You got 20 coal!");
+                        break;
+                      case 2:
+                        I.inv.iron +=10;
+                        message.reply("You got 10 iron!");
+                        break;
+                      case 3:
+                        I.inv.gold +=5;
+                        message.reply("You got 5 gold!");
+                        break;
+                      case 4:
+                        I.inv.diamond +=5;
+                        message.reply("You got 5 diamonds!");
+                        break;
+                    }
                   }
                   if(I.d[i*7+j] == "9"){ I.inv.keplerium +=1*calcFortune(I.en.fortune, I); I.xp+=50*timesXpBoost(I.en.xp, I);}
                   if(I.d[i*7+j] == "8"){ I.inv.lapis +=1*calcFortune(I.en.fortune, I); I.xp+=3*timesXpBoost(I.en.xp, I);}
@@ -765,12 +767,6 @@ var MineCommand = function(message, args){
               }
           }
       }
-      //console.log(m.length);
-      /*let embed = new Commando.RichEmbed()
-        .setAuthor(bot.user.username, bot.user.avatarURL)
-        .setTitle("**Your Arena**")
-        .setDescription(m)
-        .setColor("33ee33");*/
       message.channel.send("**Your Arena:**" + m);
       if(args[0] === ""){
         message.channel.send("**Don't forget to add a direction at the end in the direction you want to mine!**");
@@ -930,9 +926,7 @@ var BackupCommand = function(message, args){
       console.log('Data written to file!');
       console.log(data);
       const rawdata = fs.readFileSync('datas.json');  
-      const inv = JSON.parse(rawdata);  
-      //console.log(inv.Invs);  
-      //Message("Backup Success!", "Data has been backed up successfully! There are " + inv.Invs.length + " user datas stored!", message, "ee7733");
+      const inv = JSON.parse(rawdata);
       Invs = inv.Invs;
       var myAttachment = new Commando.Attachment("./datas.json", Namee);
       let embed = new Commando.RichEmbed()
@@ -942,10 +936,6 @@ var BackupCommand = function(message, args){
             .attachFile(myAttachment)
 
         message.channel.send(embed);
-      //message.channel.send("Here is the .json file!", myAttachment);
-      /*for(var i = 0;i < Math.floor(data.length/1000)+1;i ++){
-        message.channel.send("```" + data.slice(i*1000, i*1000+1000) + "```");
-      }*/
     });
 };
 var CraftCommand = function(message, args){
